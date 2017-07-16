@@ -2,33 +2,43 @@ var titulo = document.querySelector(".titulo");
 titulo.textContent = "Aparecida Nutricionista";
 
 
-var paciente = document.querySelector("#primeiro-paciente");
+var pacientes = document.querySelectorAll(".paciente");
 
-var tdPeso = paciente.querySelector(".info-peso");
-var peso = tdPeso.textContent;
 
-var tdAltura  = paciente.querySelector(".info-altura");
-var altura = tdAltura.textContent;
+for(var i = 0 ; i < pacientes.length ;  i++){
 
-var tdImc = paciente = document.querySelector(".info-imc");
+	var paciente = pacientes[i];
 
-var pesoEhValido = true;
-var alturaEhValida = true;
+	var tdPeso = paciente.querySelector(".info-peso");
+	var peso = tdPeso.textContent;
+
+	var tdAltura  = paciente.querySelector(".info-altura");
+	var altura = tdAltura.textContent;
+
+	var tdImc = paciente.querySelector(".info-imc");
+
+	var pesoEhValido = true;
+	var alturaEhValida = true;
 
 if(peso <= 0 || peso >= 1000){
 	tdImc.textContent = "Peso Inválido";
 	pesoEhValido = false;
+	paciente.classList.add("paciente-invalido"); // adiciona uma classe com configuracoes CSS.
+	// classList mostras classes que aquele HTML tem
 }
 
 if(altura <= 0 || altura >= 3.00){
 	tdImc.textContent = "altura inválida";
 	alturaEhValida = false;
+	paciente.classList.add("paciente-invalido");
 }
-
-
 
 if(pesoEhValido == true && alturaEhValida == true){
 
-	var imc = peso/(altura * altura);
-	tdImc.textContent = imc;
+	var imc = peso / (altura * altura);
+	tdImc.textContent = imc.toFixed(2); // toFixed limita as casas decimais.
 }
+
+}
+
+
