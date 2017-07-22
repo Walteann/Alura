@@ -10,7 +10,7 @@ botaoAdicionar.addEventListener("click", function(event) { //addEventListener ad
 	
 // Cria a tr a td do paciente
 
-var pacienteTr =  montaTr(paciente);	
+adicionarPacienteNaTabela(paciente);
 
 var erros = validaPaciente(paciente);
 //erro=> "O peso é invalido"; quando ele entrar na função ele vai retornar a msg pra o var erro, se for false, o peso é invalido.
@@ -22,12 +22,6 @@ console.log(erros);
 
 		return;
 	}
-
-var tabela = document.querySelector("#tabela-pacientes");
-
-
-// Adiciona A Tr no tbody que possuir id="tabela-pacientes"
-	tabela.appendChild(pacienteTr);
 
 	form.reset(); // Limpar os campos do formularios # MUITO BOM
 	var mensagemDeErro = document.querySelector("#mensagens_erro");
@@ -109,4 +103,12 @@ function exibeMensagensDeErros(erros){
 			li.classList.add("mensagens-erro");
 			ul.appendChild(li);
 		});
+}
+
+
+function adicionarPacienteNaTabela(paciente){
+	var pacienteTr =  montaTr(paciente);
+	var tabela = document.querySelector("#tabela-pacientes");
+	// Adiciona A Tr no tbody que possuir id="tabela-pacientes"
+	tabela.appendChild(pacienteTr);	
 }
