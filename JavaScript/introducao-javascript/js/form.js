@@ -11,6 +11,18 @@ botaoAdicionar.addEventListener("click", function(event) { //addEventListener ad
 // Cria a tr a td do paciente
 
 var pacienteTr =  montaTr(paciente);	
+
+var erros = validaPaciente(paciente);
+//erro=> "O peso é invalido"; quando ele entrar na função ele vai retornar a msg pra o var erro, se for false, o peso é invalido.
+//erro=> "";  porem, se vier true, nesse caso a string é vazia.
+
+console.log(erros);
+	if(erros.length > 0){
+		exibeMensagensDeErros(erros);
+
+		return;
+	}
+
 var tabela = document.querySelector("#tabela-pacientes");
 
 
@@ -18,6 +30,8 @@ var tabela = document.querySelector("#tabela-pacientes");
 	tabela.appendChild(pacienteTr);
 
 	form.reset(); // Limpar os campos do formularios # MUITO BOM
+	var mensagemDeErro = document.querySelector("#mensagens_erro");
+	mensagemDeErro.innerHTML = "";
 
 });
 
@@ -55,4 +69,44 @@ function montaTd(dado,classe){
 	td.classList.add(classe);
 	return td;
 
+}
+
+function validaPaciente(paciente){
+
+	var erros = []; // cria uma array pra retorna os 2 erros, e push adiciona string no array
+
+	if( paciente.nome.length == 0){
+		erros.push("O nome não pode ser em branco");
+	}
+
+
+	if(!validaPeso(paciente.peso)) erros.push("Peso é invalido"); // vc pode fazer isso com o iF, só tira as {}
+	
+
+	if(!validaAltura(paciente.altura)) erros.push("Altura é invalida");
+
+	if( paciente.gordura.length == 0){
+		erros.push("gordura nao pode ser em branco");
+	}
+	if(paciente.peso.length == 0){
+		erros.push("O peso não pode ser em branco");
+	}
+
+	if(paciente.altura.length == 0){
+		erros.push("Altura não pode ser me branco");
+	}
+
+	return erros	
+}
+
+function exibeMensagensDeErros(erros){
+
+	var ul = document.querySelector("#mensagens_erro");
+		ul.innerHTML = "";
+		erros.forEach(function(erro){
+			var li = document.createElement("li");
+			li.textContent = erro;
+			li.classList.add("mensagens-erro");
+			ul.appendChild(li);
+		});
 }
