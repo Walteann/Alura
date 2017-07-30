@@ -1,0 +1,2 @@
+aqui ficaria o servidor node.js, eu não coloquei pra n subir coisa desnecessaria pro git.
+
