@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt-br" ng-app="meuCrud">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/bootstrap/css/bootstrap.min.css">
+   
+    
+    <script src="js/lib/angular.min.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/controllers/usuario-controller.js"></script>
+
+
+    <title>AngularJS CRUD</title>
+</head>
+<body ng-controller="usuarioController">
+
+    <div class="container" >
+        <div class="row"> <!--TITULO -->
+            <hr>
+            <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#meuModalCadastro">Novo</button>
+            <h2>Todos os usuário</h2>
+            <hr>
+        </div>
+
+        <!-- MENSAGENS -->
+
+        <div class="alert alert-success" ng-if="mensagem">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close" ng-click="limparMensagem()">&times;</a>
+            <strong>{{mensagem}}</strong> 
+        </div>
+
+
+        <!-- LISTA DE REGISTROS -->
+        <table class="table table-hover"> 
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Telefone</th>
+                    <th>Email</th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+            </thead>
+            <tbody ng-repeat="registro in registros">
+                <tr>
+                    <td>{{registro.nome}}</td>
+                    <td>{{registro.telefone}}</td>
+                    <td>{{registro.email}}</td>
+                    <td><button class="btn btn-info" ng-click="registroClicado(registro)" data-toggle="modal" data-target="#meuModalEditar">Editar</button></td>
+                    <td><button class="btn btn-danger" ng-click="registroClicado(registro)" data-toggle="modal" data-target="#meuModalRemover">Deletar</button></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div id="meuModalCadastro" class="modal fade" role="dialog"> <!-- CADASTRAR -->
+            <div class="modal-dialog">
+              
+                  <!-- Modal content-->
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">&times;</button>
+                      <h4 class="modal-title">Registrar usuário</h4>
+                    </div>
+                    <div class="modal-body">
+                    
+                    <form nome="formulario" class="form-horizontal">
+                        <div class="form-group">
+                            	<label class="control-label col-sm-2" for="nome">Nome:</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" ng-model="novoRegistro.nome" name="nome" id="nome" placeholder="Informe o nome">
+                        </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="telefone">Telefone:</label>
+                        <div class="col-sm-10"> 
+                            <input type="text" class="form-control" ng-model="novoRegistro.telefone" name="telefone" id="telefone" placeholder="Informe o telefone">
+                        </div>
+                        </div>
+                        <div class="form-group">
+                                <label class="control-label col-sm-2" for="email">Email:</label>
+                            <div class="col-sm-10"> 
+                                <input type="email" class="form-control" ng-model="novoRegistro.email" name="email" id="email" placeholder="nome@email.com">
+                        </div>
+                        </div>
+                        
+                        <div class="form-group"> 
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" ng-click="registrar()" class="btn btn-primary" data-dismiss="modal">Registrar</button>
+                        </div>
+                        </div>
+                    </form>    
+
+
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                    </div>
+                  </div>
+              
+            </div>
+        </div> <!-- FIM MODAL CADASTRAR -->
+
+        <div id="meuModalEditar" class="modal fade" role="dialog"> <!-- MODAL EDITAR -->
+                <div class="modal-dialog">
+                  
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          <h4 class="modal-title">Editar usuário</h4>
+                        </div>
+                        <div class="modal-body">
+                        
+                        <form nome="formulario" class="form-horizontal">
+                            <div class="form-group">
+                                    <label class="control-label col-sm-2" for="nome">Nome:</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" ng-model="registroSelecionado.nome" name="nome" id="nome" placeholder="Informe o nome">
+                            </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-sm-2" for="telefone">Telefone:</label>
+                            <div class="col-sm-10"> 
+                                <input type="text" class="form-control" ng-model="registroSelecionado.telefone" name="telefone" id="telefone" placeholder="Informe o telefone">
+                            </div>
+                            </div>
+                            <div class="form-group">
+                                    <label class="control-label col-sm-2" for="email">Email:</label>
+                                <div class="col-sm-10"> 
+                                    <input type="email" class="form-control" ng-model="registroSelecionado.email" name="email" id="email" placeholder="nome@email.com">
+                            </div>
+                            </div>
+                            
+                            <div class="form-group"> 
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" ng-click="alterarRegistro()" class="btn btn-info" data-dismiss="modal">Editar</button>
+                            </div>
+                            </div>
+                        </form>    
+    
+    
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+                        </div>
+                      </div>
+                  
+                </div>
+            </div><!-- FIM MODAL EDITAR -->
+
+            <div id="meuModalRemover" class="modal fade" role="dialog"> <!-- MODAL REMOVER -->
+                <div class="modal-dialog">
+                  
+                      <!-- Modal content-->
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                          <h4 class="modal-title">Deletar registro</h4>
+                        </div>
+                        <div class="modal-body">
+                        
+                            <h3 style="color: red">Você deseja deletar <span style="color: blue">{{registroSelecionado.nome}}</span>  ?</h3>
+    
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-info" data-dismiss="modal" ng-click="deletarRegistro()">SIM</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">NAO</button>
+                        </div>
+                      </div>
+                  
+                </div>
+            </div><!-- FIM MODAL REMOVER -->
+
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="css/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>
